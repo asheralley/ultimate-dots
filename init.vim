@@ -1,7 +1,7 @@
 syntax on
 
-set tabstop=2 softtabstop=2
-set shiftwidth=2
+set tabstop=4 softtabstop=4
+set shiftwidth=4
 set expandtab
 set smartindent
 set nu
@@ -12,11 +12,13 @@ set noswapfile
 set nobackup
 set undodir=~/.config/nvim/undodir
 set undofile
+set autowriteall
 set incsearch
 set cursorline
 set termguicolors
 set splitbelow
 set splitright
+set clipboard=unnamedplus
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -25,6 +27,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'mlaursen/vim-react-snippets'
@@ -124,6 +127,9 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit'
   \}
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
 
 " open vim config file
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
@@ -232,7 +238,7 @@ let g:prettier#config#print_width = 80
 
 " number of spaces per indentation level
 " Prettier default: 2
-let g:prettier#config#tab_width = 2
+let g:prettier#config#tab_width = 4
 
 " use tabs over spaces
 " Prettier default: false
@@ -282,6 +288,12 @@ nmap <leader>ff <Plug>(Prettier)
 " ============================================================================
 " Add bufferline to section b
 " let g:airline_section_b = '[%n]'
+
+let g:airline#extensions#tabline#enabled = 1
+
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" let g:airline_statusline_ontop=1
 
 " Custom Status Line
 " Git function 
