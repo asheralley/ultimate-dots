@@ -38,6 +38,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/matchtagalways'
@@ -57,6 +58,8 @@ call plug#end()
 " ============================================================================
 
 colorscheme onedark
+
+let g:indentLine_char = '┊'
 
 "let g:gruvbox_contrast_dark = 'hard'
 
