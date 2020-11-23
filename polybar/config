@@ -1,0 +1,628 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;==========================================================
+[colors]
+;accent = #fba922
+accent = #4b6c9c
+; background = #dbdbdb
+; foreground = #3e3e3e
+; background = #4C566A
+background = #434C5E
+foreground = #81A1C1
+lightblue = #88C0D0
+darkblue = #81A1C1
+darktext = #2E3440
+deepblue = #5E81AC
+
+[bar/top-main]
+enable-ipc = true
+monitor = ${env:MONITOR:}
+;monitor = HDMI-A-0
+width = 100%:-48
+offset-x = 24
+offset-y = 24
+height = 36
+
+radius = 0.0
+
+override-redirect = true
+
+;background = #222
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;border-bottom = 1
+;border-bottom-color = #333
+
+overline-size = 10
+overline-color = ${self.background}
+underline-size = 10
+underline-color = ${self.background}
+
+padding-left = 0
+padding-right = 4
+module-margin-left = 2
+module-margin-right = 3
+
+font-0 = SauceCodePro Nerd Font:size=10;1
+font-1 = Anonymice Nerd Font Mono:pixelsize=17;1 
+font-2 = siji:pixelsize=10;1
+font-4 = FontAwesome:size=10;0
+
+modules-left = i3
+modules-center = clock
+modules-right = volume wireless-network powermenu
+
+wm-restack = i3
+
+; tray-position = none
+
+;[bar/bottom-main]
+;;monitor = ${env:MONITOR:}
+;monitor = HDMI-A-0
+;bottom = true
+;width = 100%:-48
+;height = 36
+;offset-x = 24
+;offset-y = 24
+
+;background = ${colors.background}
+;foreground = ${colors.foreground}
+
+;overline-size = 3
+;overline-color = ${colors.accent}
+;underline-size = 3
+;underline-color = ${colors.accent}
+
+;;border-color = #ff0000
+;;border-top = 3
+;;border-top-color = #3d3d3d
+;;border-bottom = 0
+;;border-bottom-color = #333333
+
+;spacing = 0
+;;padding-right = 4
+;padding-left = 0
+;padding-right = 0
+;module-margin-left = 0
+;module-margin-right = 0
+
+;;font-0 = NotoSans-Regular:size=8;0
+;;font-1 = Unifont:size=5;0
+;;font-2 = FontAwesome:size=8;0
+;;font-3 = NotoSans-Regular:size=8;-1
+;;font-4 = Unifont:size=5;0
+;;font-5 = Termsynu:size=7;0
+
+;;font-0 = NotoSans-Regular:size=8;0
+;;font-1 = DruidSansMono Nerd Font:pixelsize=10;1
+;;font-2 = Anonymice Nerd Font Mono:pixelsize=10;1 
+;;font-3 = siji:pixelsize=10;1
+
+;font-0 = DruidSansMono Nerd Font:pixelsize=10;1
+;font-1 = Anonymice Nerd Font Mono:pixelsize=17;1 
+;font-2 = siji:pixelsize=10;1
+
+;modules-left = powermenu
+;modules-center = i3
+;;modules-right = xbacklight cpu memory
+;;modules-right = memory
+
+;wm-restack = i3
+
+
+[bar/bottom-secondary]
+width = 100%
+height = 27
+bottom = true
+
+background = #001c1c1c
+foreground = #00fafafa
+
+overline-size = 3
+overline-color = ${colors.accent}
+underline-size = 3
+underline-color = ${colors.accent}
+
+;border-color = #ff0000
+;border-top = 3
+;border-top-color = #3d3d3d
+;border-bottom = 0
+;border-bottom-color = #333333
+
+spacing = 0
+padding-right = 4
+padding-left = 4
+;padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
+
+;font-0 = NotoSans-Regular:size=8;0
+;font-1 = Unifont:size=5;0
+;font-2 = FontAwesome:size=8;0
+;font-3 = NotoSans-Regular:size=8;-1
+;font-4 = Unifont:size=5;0
+;font-5 = Termsynu:size=7;0
+
+;font-0 = NotoSans-Regular:size=8;0
+;font-1 = DruidSansMono Nerd Font:pixelsize=10;1
+;font-2 = Anonymice Nerd Font Mono:pixelsize=10;1 
+;font-3 = siji:pixelsize=10;1
+
+font-0 = DruidSansMono Nerd Font:pixelsize=10;1
+font-1 = Anonymice Nerd Font Mono:pixelsize=17;1 
+font-2 = siji:pixelsize=10;1
+
+;modules-left = fs-root
+;modules-center = i3
+;modules-right = xbacklight cpu memory
+;modules-right = memory
+
+wm-restack = i3
+
+[bar/top-secondary]
+width = 100%
+height = 27
+
+background = #001c1c1c
+foreground = #00fafafa
+
+overline-size = 3
+overline-color = ${colors.accent}
+underline-size = 3
+underline-color = ${colors.accent}
+
+;border-color = #ff0000
+;border-top = 3
+;border-top-color = #3d3d3d
+;border-bottom = 0
+;border-bottom-color = #333333
+
+spacing = 0
+;padding-right = 4
+padding-left = 4
+padding-right = 4
+module-margin-left = 0
+module-margin-right = 0
+
+;font-0 = NotoSans-Regular:size=8;0
+;font-1 = Unifont:size=5;0
+;font-2 = FontAwesome:size=8;0
+;font-3 = NotoSans-Regular:size=8;-1
+;font-4 = Unifont:size=5;0
+;font-5 = Termsynu:size=7;0
+
+;font-0 = NotoSans-Regular:size=8;0
+;font-1 = DruidSansMono Nerd Font:pixelsize=10;1
+;font-2 = Anonymice Nerd Font Mono:pixelsize=10;1 
+;font-3 = siji:pixelsize=10;1
+
+font-0 = DruidSansMono Nerd Font:pixelsize=10;1
+font-1 = Anonymice Nerd Font Mono:pixelsize=17;1 
+font-2 = siji:pixelsize=10;1
+
+;modules-left = cpu
+modules-right = wireless-network
+
+[module/fs-root]
+type = internal/fs
+mount-0 = /
+label-mounted = %{F#eeeeee}%percentage_used%%%{F-} used of %mountpoint%
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:25:...%
+
+[module/xbacklight]
+type = internal/xbacklight
+output = eDP-1
+format = <ramp> <bar>
+
+ramp-0 = 
+ramp-0-foreground = #666
+ramp-1 = 
+ramp-1-foreground = #999
+ramp-2 = 
+ramp-2-foreground = #fff
+
+bar-width = 12
+bar-indicator = |
+bar-indicator-font = 6
+bar-indicator-foreground = #bbffffff
+bar-fill = ─
+bar-fill-font = 6
+bar-fill-foreground = #9f78e1
+bar-empty = ─
+bar-empty-font = 6
+bar-empty-foreground = #44
+
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <ramp> <label>
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = #666
+interactive = true
+
+
+[module/bspwm]
+type = internal/bspwm
+format = <label-state> <label-mode>
+
+ws-icon-0 = term;
+ws-icon-1 = web;
+ws-icon-2 = code;
+ws-icon-3 = music;
+ws-icon-4 = irssi;
+ws-icon-default = 
+
+label-dimmed-underline = ${root.background}
+
+label-focused = %icon%  %name%
+label-focused-foreground = #f3f3f3
+label-focused-background = #3f3f3f
+;label-focused-underline = ${colors.accent}
+label-focused-underline = #9f78e1
+label-focused-font = 4
+label-focused-padding = 4
+
+label-occupied = %icon%  %name%
+label-occupied-underline = #555555
+label-occupied-font = 4
+label-occupied-padding = 4
+
+label-urgent = %icon%  %name%
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-underline = #9b0a20
+label-urgent-font = 4
+label-urgent-padding = 4
+
+label-empty = %icon%  %name%
+label-empty-foreground = #55ffffff
+label-empty-font = 4
+label-empty-padding = 4
+
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+pin-workspaces = true
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-default = 
+
+label-dimmed-underline = ${root.background}
+
+;label-focused = 
+label-focused = %name%
+label-focused-foreground = ${colors.darktext}
+label-focused-background = ${colors.deepblue}
+;label-focused-underline = #${colors.accent}
+;label-focused-underline = #9f78e1
+label-focused-font = 0
+label-focused-padding = 2
+
+;label-unfocused = 
+label-unfocused = %name%
+label-unfocused-foreground= ${colors.foreground}
+label-unfocused-background = ${colors.background}
+label-unfocused-font = 0
+label-unfocused-padding = 2
+
+label-urgent = 
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-underline = #9b0a20
+label-urgent-font = 0
+label-urgent-padding = 2
+
+;label-visible = 
+label-visible = %name%
+label-visible-foreground = ${colors.darkblue}
+label-visible-background = ${colors.darktext}
+label-visible-font = 0
+label-visible-padding = 2
+
+
+[module/cpu]
+type = internal/cpu
+interval = 1.5
+
+format = <label> <ramp-coreload> 
+
+label = CPU
+label-font = 3
+label-foreground = #99
+
+ramp-coreload-0 = ▁
+ramp-coreload-0-font = 2
+ramp-coreload-0-foreground = #e3e3e3
+ramp-coreload-1 = ▂
+ramp-coreload-1-font = 2
+ramp-coreload-1-foreground = #e3e3e3
+ramp-coreload-2 = ▃
+ramp-coreload-2-font = 2
+ramp-coreload-2-foreground = #e3e3e3
+ramp-coreload-3 = ▄
+ramp-coreload-3-font = 2
+ramp-coreload-3-foreground = #e3e3e3
+ramp-coreload-4 = ▅
+ramp-coreload-4-font = 2
+ramp-coreload-4-foreground = #e3e3e3
+ramp-coreload-5 = ▆
+ramp-coreload-5-font = 2
+ramp-coreload-5-foreground = #e3e3e3
+ramp-coreload-6 = ▇
+ramp-coreload-6-font = 2
+ramp-coreload-6-foreground = #ff5555
+ramp-coreload-7 = █
+ramp-coreload-7-font = 2
+ramp-coreload-7-foreground = #ff5555
+
+[module/memory]
+type = internal/memory
+interval = 0.2
+format = <label> <bar-used>
+
+label = RAM
+label-font = 3
+label-foreground = #99
+
+bar-used-width = 30
+bar-used-gradient = true
+bar-used-foreground-0 = #e3e3e3
+bar-used-foreground-1 = #e3e3e3
+bar-used-foreground-2 = #e3e3e3
+bar-used-foreground-3 = #ed5456
+bar-used-indicator = |
+bar-used-indicator-font = 5
+bar-used-indicator-foreground = #fff
+bar-used-fill = |
+bar-used-fill-font = 5
+bar-used-empty = |
+bar-used-empty-font = 5
+bar-used-empty-foreground = #44
+
+[module/wireless-network]
+type = internal/network
+interface = wlp8s0
+interval = 2.0
+ping-interval = 10
+
+format-connected = <label-connected>
+label-connected = 
+label-disconnected = nf-mdi-wifi_off   not connected
+label-disconnected-foreground = #66
+
+format-padding = 4
+
+ramp-signal-foreground = ${colors.foreground}
+ramp-signal-0 = ▁
+ramp-signal-1 = ▁▂ 
+ramp-signal-2 = ▁▂▃▄
+ramp-signal-3 = ▁▂▃▄▅
+ramp-signal-4 = ▁▂▃▄▅▆
+ramp-signal-5 = ▁▂▃▄▅▆▇
+
+
+animation-packetloss-0 = 
+animation-packetloss-0-foreground = #e3e3e3
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${bar/top.foreground}
+animation-packetloss-framerate = 500
+
+[module/wired-network]
+type = internal/network
+interface = net0
+interval = 2.0
+
+label-connected =   %local_ip%
+label-disconnected = Ethernet disconnected
+label-disconnected-foreground = #66
+
+[module/mpd]
+type = internal/mpd
+format-online = <bar-progress>  <icon-prev> <icon-stop> <toggle> <icon-next>  <label-song>
+format-online-overline = ${root.background}
+format-online-underline = ${root.background}
+format-offline = <label-offline>
+label-offline = mpd is off
+
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+icon-random = 
+icon-repeat = 
+
+toggle-on-foreground =
+toggle-off-foreground = #55
+
+bar-progress-width = 45
+bar-progress-format = %{+o +u}%fill%%{-o -u}%indicator%%{+o +u}%empty%%{-u -o}
+; bar-progress-indicator = |
+bar-progress-indicator = █
+bar-progress-indicator-foreground = #ff
+bar-progress-indicator-font = 3
+; bar-progress-fill = ─
+bar-progress-fill = █
+bar-progress-fill-foreground = #bb
+bar-progress-fill-font = 3
+; bar-progress-empty = ─
+bar-progress-empty = ▒
+bar-progress-empty-font = 3
+bar-progress-empty-foreground = #44
+
+[module/clock]
+type = internal/date
+interval = 1
+format = <label>
+format-padding = 0
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+time = %H:%M%
+;time-alt = %H:%M:%S
+date = %a %d-%m-%y
+
+label = %time% | %date%
+label-active-font = 0
+
+[module/volume]
+type = internal/alsa
+;speaker-mixer = Speaker
+;headphone-mixer = Headphone
+headphone-id = 9
+; 
+
+format-volume = <ramp-volume> 
+label-volume = %percentage%
+label-volume-foreground = ${colors.foreground}
+
+format-padding = 4
+;format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground}
+label-muted = 婢
+
+bar-volume-width = 30
+bar-volume-foreground-0 = #e3e3e3
+bar-volume-foreground-1 = #e3e3e3
+bar-volume-foreground-2 = #e3e3e3
+bar-volume-foreground-3 = #e3e3e3
+bar-volume-foreground-4 = #e3e3e3
+bar-volume-foreground-5 = #e3e3e3
+bar-volume-foreground-6 = #e3e3e3
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 0
+bar-volume-fill = ─
+bar-volume-fill-font = 0
+bar-volume-empty = ─
+bar-volume-empty-font = 0
+bar-volume-empty-foreground = #333
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 =  !
+
+[module/battery]
+type = internal/battery
+full-at = 98
+lable-charging =  
+lable-discharging = 
+lable-full =  
+format-charging =  <label-charging>
+format-discharging =  <label-discharging>
+format-full =  <label-full>
+;label-charging-font = 3
+;label-discharging-font = 3
+;label-full =  
+;label-full-font = 1
+
+; [module/xwindow]
+; type = internal/xwindow
+; label-maxlen = 75
+; label-foreground = #bbb
+
+; [module/powermenu]
+; type = custom/menu
+
+; expand-right = true
+
+; format-padding = 3
+; format-background = #00000000
+; format-foreground = #e3e3e3
+
+; label-open = 
+; label-close = 
+; label-separator = " | "
+
+; menu-0-0 = Suspend
+; menu-0-0-foreground = ${colors.accent}
+; menu-0-0-exec = systemctl suspend
+; menu-0-1 = Hibernate
+; menu-0-1-foreground = ${colors.accent}
+; menu-0-1-exec = menu-open-3
+; menu-0-2 = Power off
+; menu-0-2-foreground = ${colors.accent}
+; menu-0-2-exec = menu-open-2
+; menu-0-3 = Reboot
+; menu-0-3-foreground = ${colors.accent}
+; menu-0-3-exec = menu-open-1
+; menu-0-4 = Lock
+; menu-0-4-foreground = ${colors.accent}
+; menu-0-4-exec = ~/.config/i3/scripts/i3exit.sh lock
+
+; menu-1-0 = Cancel
+; menu-1-0-foreground = ${colors.accent}
+; menu-1-0-exec = menu-open-0
+; menu-1-1 = Reboot
+; menu-1-1-foreground = ${colors.accent}
+; menu-1-1-exec = systemctl reboot
+
+; menu-2-0 = Power off
+; menu-2-0-foreground = ${colors.accent}
+; menu-2-0-exec = systemctl poweroff
+; menu-2-1 = Cancel
+; menu-2-1-foreground = ${colors.accent}
+; menu-2-1-exec = menu-open-0
+
+; menu-3-0 = Hibernate
+; menu-3-0-foreground = ${colors.accent}
+; menu-3-0-exec = systemctl hibernate
+; menu-3-1 = Cancel
+; menu-3-1-foreground = ${colors.accent}
+; menu-3-1-exec = menu-open-0
+
+[module/powermenu]
+type = custom/text
+format-spacing = 1
+content = 
+content-foreground = ${colors.foreground}
+click-left = bash ~/Scripts/rofi/launch.sh powermenu
+
+[module/menu-apps]
+type = custom/menu
+expand-right = true
+
+label-open = Menu
+label-close = X
+label-separator = |
+format-spacing = 1
+
+menu-0-0 = Internet
+menu-0-0-exec = menu-open-1
+menu-0-1 = Power
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = Chrome
+menu-1-0-exec = google-chrome-stable &
+menu-1-1 = Spotify
+menu-1-1-exec = spotify &
+
+menu-2-0 = Reboot
+menu-2-0-exec = systemctl reboot
+menu-2-1 = Shutdown
+menu-2-1-exec = systemctl poweroff
+; vim:ft=dosini

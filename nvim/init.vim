@@ -1,7 +1,7 @@
 syntax on
 
-set tabstop=4 softtabstop=4
-set shiftwidth=4
+set tabstop=2 softtabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set nu
@@ -12,47 +12,72 @@ set noswapfile
 set nobackup
 set undodir=~/.config/nvim/undodir
 set undofile
+set autowriteall
 set incsearch
 set cursorline
 set termguicolors
 set splitbelow
 set splitright
+set clipboard=unnamedplus
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+
+let mapleader = " "
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'mlaursen/vim-react-snippets'
+" Plug 'mlaursen/vim-react-snippets'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'Yggdroot/indentLine'
+Plug 'ryanoasis/vim-devicons'
 Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/matchtagalways'
 Plug 'tpope/vim-surround'
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'honza/vim-snippets'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 Plug 'preservim/nerdtree'
+Plug 'mattn/emmet-vim'
+
 
 call plug#end()
 
-colorscheme onedark
+" ============================================================================
+" Colorscheme config
+" ============================================================================
+
+" colorscheme onedark
+colorscheme nord
+
+let g:indentLine_char = '┊'
+
+" set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
 endif
 
 let loaded_matchparen = 1
-let mapleader = " "
 
 "let g:netrw_browse_split = 2
 "let g:vrfr_rg = 'true'
@@ -87,6 +112,11 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 " ============================================================================
+" Emmet setup
+" ============================================================================
+let g:user_emmet_leader_key='<C-e>'
+
+" ============================================================================
 " Exploring files
 " ============================================================================
 nnoremap <Leader>ps :Rg<SPACE>
@@ -99,6 +129,9 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit'
   \}
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
 
 " open vim config file
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
@@ -130,6 +163,8 @@ set updatetime=300
 
 let g:coc_global_extensions=[
       \ 'coc-css',
+      \ 'coc-emmet',
+      \ 'coc-html',
       \ 'coc-scssmodules',
       \ 'coc-eslint',
       \ 'coc-json',
@@ -151,6 +186,19 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" function! ShowDocIfNoDiagnostic(timer_id)
+"   if (coc#util#has_float() == 0)
+"     silent call CocActionAsync('doHover')
+"   endif
+" endfunction
+
+" function! s:show_hover_doc()
+"   call timer_start(500, 'ShowDocIfNoDiagnostic')
+" endfunction
+
+" autocmd CursorHoldI * :call <SID>show_hover_doc()
+" autocmd CursorHold * :call <SID>show_hover_doc()
+
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 if exists('*complete_info')
@@ -159,13 +207,28 @@ else
   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
 " GoTo code navigation.
-nmap <buffer> <leader>gd <Plug>(coc-definition)
-nmap <buffer> <leader>gy <Plug>(coc-type-definition)
-nmap <buffer> <leader>gi <Plug>(coc-implementation)
-nmap <buffer> <leader>gr <Plug>(coc-references)
-nmap <buffer> <leader>rr <Plug>(coc-rename)
-nnoremap <buffer> <leader>cr :CocRestart
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+" nmap <buffer> <leader>rn <Plug>(coc-rename)
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>cr :CocRestart
 
 " for snippets
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
@@ -173,6 +236,11 @@ let g:coc_snippet_next = '<c-j>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
 let g:coc_snippet_prev = '<c-k>'
+
+" Fugitve mappings
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+nmap <leader>gs :G<CR>
 
 " ============================================================================
 " Integrated Terminal
@@ -216,7 +284,7 @@ let g:prettier#config#semi = 'true'
 
 " single quotes over double quotes
 " Prettier default: false
-let g:prettier#config#single_quote = 'false'
+let g:prettier#config#single_quote = 'true'
 
 " print spaces between brackets
 " Prettier default: true
@@ -254,6 +322,12 @@ nmap <leader>ff <Plug>(Prettier)
 " ============================================================================
 " Add bufferline to section b
 " let g:airline_section_b = '[%n]'
+
+let g:airline#extensions#tabline#enabled = 1
+
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" let g:airline_statusline_ontop=1
 
 " Custom Status Line
 " Git function 
