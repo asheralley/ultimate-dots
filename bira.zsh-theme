@@ -17,7 +17,7 @@ local venv_prompt='$(virtualenv_prompt_info)'
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
 PROMPT="
-┌${user_host}--%{$fg[white]%}[%T]%{$reset_color%} 
+┌${user_host}-%{$fg[white]%}[%T]%{$reset_color%} 
 └[${current_dir}]${git_branch}${rvm_ruby}${venv_prompt}
 %B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"

@@ -14,37 +14,44 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set autowriteall
 set incsearch
-set cursorline
 set termguicolors
 set splitbelow
 set splitright
 set clipboard=unnamedplus
+set signcolumn=yes
+set scrolloff=8
+set hidden
+set noerrorbells
+set cmdheight=2
+set updatetime=50
+set shortmess+=c
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-let mapleader = " "
-
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'sheerun/vim-polyglot'
+Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/matchtagalways'
 Plug 'tpope/vim-surround'
-Plug 'honza/vim-snippets'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -84,11 +91,13 @@ if executable('rg')
 endif
 
 let loaded_matchparen = 1
+let mapleader = " "
 
-"let g:netrw_browse_split = 2
-"let g:vrfr_rg = 'true'
-"let g:netrw_banner = 0
-"let g:netrw_winsize = 25
+let g:netrw_browse_split = 2
+let g:vrfr_rg = 'true'
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+let g:netrw_localrmdir='rm -r'
 
 " vim-javascript configuration
 let g:javascript_plugin_jsdoc = 1
@@ -153,14 +162,20 @@ nmap sv :vsplit<Return><C-w>w
 " this is for moving lines up and down when highlighted !AMAZING!
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+nnoremap J :m .+1<CR>==
+nnoremap K :m .-2<CR>==
 
 " mapping for deleting a line when highlighted
 vnoremap X "_d
-
+vnoremap <leader>p "_dP
 " exiting out of insert mode
 " inoremap <C-c> <esc>
 " inoremap jk <esc>
 
+ :au BufReadPost *
+\ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+\ |   exe "normal! g`\""
+\ | endif
 
 " ============================================================================
 " COC settings
@@ -192,19 +207,6 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-function! ShowDocIfNoDiagnostic(timer_id)
-  if (coc#util#has_float() == 0)
-    silent call CocActionAsync('doHover')
-  endif
-endfunction
-
-function! s:show_hover_doc()
-  call timer_start(500, 'ShowDocIfNoDiagnostic')
-endfunction
-
-autocmd CursorHoldI * :call <SID>show_hover_doc()
-autocmd CursorHold * :call <SID>show_hover_doc()
-
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 if exists('*complete_info')
@@ -219,7 +221,7 @@ nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
-" nmap <buffer> <leader>rn <Plug>(coc-rename)
+nmap <leader>do <Plug>(coc-codeaction)
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>cr :CocRestart
 
@@ -229,11 +231,6 @@ let g:coc_snippet_next = '<c-j>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
 let g:coc_snippet_prev = '<c-k>'
-
-" Fugitve mappings
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gu :diffget //2<CR>
-nmap <leader>gs :G<CR>
 
 " ============================================================================
 " Integrated Terminal
@@ -250,7 +247,10 @@ function! OpenTerminal()
 endfunction
 nnoremap <C-\> :call OpenTerminal()<CR>
 
-
+" Fugitve mappings
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+nmap <leader>gs :G<CR>
 
 " ============================================================================
 " Prettier config
@@ -265,7 +265,7 @@ let g:prettier#config#print_width = 80
 
 " number of spaces per indentation level
 " Prettier default: 2
-let g:prettier#config#tab_width = 4
+let g:prettier#config#tab_width = 2
 
 " use tabs over spaces
 " Prettier default: false
@@ -277,7 +277,7 @@ let g:prettier#config#semi = 'true'
 
 " single quotes over double quotes
 " Prettier default: false
-let g:prettier#config#single_quote = 'false'
+let g:prettier#config#single_quote = 'true'
 
 " print spaces between brackets
 " Prettier default: true
@@ -289,7 +289,7 @@ let g:prettier#config#jsx_bracket_same_line = 'false'
 
 " avoid|always
 " Prettier default: avoid
-let g:prettier#config#arrow_parens = 'always'
+let g:prettier#config#arrow_parens = 'avoid'
 
 " none|es5|all
 " Prettier default: none
@@ -320,34 +320,3 @@ let g:airline#extensions#tabline#enabled = 1
 
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
-" let g:airline_statusline_ontop=1
-
-" Custom Status Line
-" Git function 
-"function! GitBranch()
-"  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-"endfunction
-"
-"function! StatuslineGit()
-"  let l:branchname = GitBranch()
-"  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-"endfunction
-"
-"set laststatus=2
-"set statusline=
-"set statusline+=%#PmenuSel#
-"set statusline+=\ [%n]\ 
-""set statusline+=%#PmenuSel#
-"set statusline+=\[%F]\ 
-""set statusline+=\ %f\ 
-"set statusline+=%#DiffAdd#
-"set statusline+=%m
-"set statusline+=%{StatuslineGit()}%*
-""set statusline+=%#CursorColumn#
-"set statusline+=%=
-"set statusline+=%#PmenuSel#
-
-"set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-"set statusline+=\[%{&fileformat}\]
-"set statusline+=\ %p%%
-"set statusline+=\ %l:%c
