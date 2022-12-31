@@ -9,33 +9,29 @@
 general {
         colors = true
         interval = 5
+        color_good = "#8ebaa4"
+        color_degraded = "#ebcb8b"
+        color_bad = "#bf616a"
 }
 
 order += "disk /"
 order += "wireless _first_"
-order += "battery all"
 order += "load"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "W: (%quality at %essid) %ip"
-        format_down = "W: down"
-}
-
-battery all {
-        format = "%status %percentage %remaining"
-}
-
-tztime local {
-        format = "%Y-%m-%d %H:%M:%S"
-}
-
-load {
-        format = "%1min"
+        format_up = "WIFI: (%quality at %essid) %ip"
+        format_down = "WIFI: down"
 }
 
 disk "/" {
-        format = "%avail"
+        format = "/: %avail"
 }
 
+load {
+        format = "CPU: %1min"
+}
 
+tztime local {
+        format = "%d-%m-%Y %H:%M:%S"
+}
