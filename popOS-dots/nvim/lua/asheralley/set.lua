@@ -12,6 +12,8 @@ vim.opt.smartindent = true
 
 vim.opt.cursorline = true
 
+vim.opt.guicursor = 'i:block'
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
