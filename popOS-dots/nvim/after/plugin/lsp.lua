@@ -7,6 +7,7 @@ lsp.ensure_installed({
 	'eslint',
 	'sumneko_lua',
 	'rust_analyzer',
+        'html',
 })
 
 -- Fix Undefined global 'vim'
@@ -24,17 +25,87 @@ lsp.configure('sumneko_lua', {
     }
 })
 
+lsp.configure('tsserver', {
+  on_attach = function(client, bufnr)
+    print('hello tsserver')
+  end,
+  settings = {
+    completions = {
+      completeFunctionCalls = true
+    }
+  }
+})
+
+lsp.configure('html', {
+	cmd = { "vscode-html-language-server", "--stdio" },
+	filetypes = { "html" },
+	init_options = {
+		configurationSection = { "html", "css", "javascript" },
+		embeddedLanguages = {
+			css = true,
+			javascript = true
+		},
+		provideFormatter = true
+	},
+	settings = {},
+	single_file_support = true
+})
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 
+local luasnip = require('luasnip')
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<S-Tab>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<Tab>'] = cmp.mapping.select_next_item(cmp_select),
-	['<CR>'] = cmp.mapping.confirm({ select = true }),
-	['<C-Space>'] = cmp.mapping.complete({}),
+
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+cmp.setup({
+    snippet = {
+	expand = function (args)
+		luasnip.lsp_expand(args.body)
+	end,
+    }
 })
+
+local cmp_mappings = lsp.defaults.cmp_mappings({
+    ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-Space>'] = cmp.mapping.complete({}),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+	if cmp.visible() then
+	    cmp.select_next_item()
+	elseif luasnip.expand_or_jumpable() then
+	    luasnip.expand_or_jump()
+	elseif has_words_before() then
+	    cmp.complete()
+	else
+	    fallback()
+	end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+	if cmp.visible() then
+	    cmp.select_prev_item()
+	elseif luasnip.jumpable(-1) then
+	    luasnip.jump(-1)
+	else
+	    fallback()
+	end
+    end, { "i", "s" }),
+})
+
+require('luasnip').config.set_config({
+  region_check_events = 'InsertEnter',
+  delete_check_events = 'InsertLeave'
+})
+
+require('luasnip.loaders.from_vscode').lazy_load()
+
 
 -- disable completion with tab
 -- this helps with copilot setup
@@ -42,7 +113,11 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 -- cmp_mappings['<S-Tab>'] = nil
 
 lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+    mapping = cmp_mappings,
+    preselect = 'none',
+    completion = {
+	completeopt = 'menu,menuone,noinsert,noselect'
+    },
 })
 
 lsp.set_preferences({
@@ -57,11 +132,6 @@ lsp.set_preferences({
 
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
-
-  if client.name == "eslint" then
-      vim.cmd.LspStop('eslint')
-      return
-  end
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -80,5 +150,3 @@ lsp.setup()
 vim.diagnostic.config({
     virtual_text = true,
 })
-
-

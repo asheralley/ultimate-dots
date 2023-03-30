@@ -1,5 +1,4 @@
 -- bufferline setup
-
 require("bufferline").setup{
   options = {
     offsets = {
