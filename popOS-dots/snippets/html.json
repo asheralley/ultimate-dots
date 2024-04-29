@@ -1,0 +1,8 @@
+{
+    "intxt": {
+        "scope": "html",
+        "prefix": "intxt",
+        "body": ["<input type=${1} name=${2} id=${1} />"],
+    }
+}
+
