@@ -1,0 +1,87 @@
+// -*- mode: jsonc -*-
+{
+	"height": 30, // Waybar height (to be removed for auto height)
+	"spacing": 4, // Gaps between modules (4px)
+	"modules-left": [
+		"hyprland/workspaces",
+        "keyboard-state"
+	],
+	"modules-center": [
+		"hyprland/window"
+    ],
+    "modules-right": [
+	    "clock",
+	    "pulseaudio"
+    ],
+    // Modules configuration
+    "hyprland/workspaces": {
+	    "disable-scroll": false,
+	    "all-outputs": true,
+	    "warp-on-scroll": true,
+	    "format": "{name}"
+    },
+    "hyprland/window": {
+	    "format": "{class}",
+	    "rewrite": {
+		    "(.*)com.mitchellh.ghostty": "  ghostty",
+		    "(.*)firefox": "  firefox",
+		    "(.*)org.qbittorrent.qBittorrent": "  qbittorrent",
+		    "(.*)org.kde.dolphin": "  dolphin"
+	    },
+	    "separate-outputs": true
+    },
+    "clock": {
+	    "format": "{:%H:%M}",
+	    "format-alt": "{:%A, %B %d, %Y (%R)}",
+	    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+	    "calendar": {
+		    "mode"          : "month",
+		    "mode-mon-col"  : 3,
+		    "weeks-pos"     : "right",
+		    "on-scroll"     : 1,
+		    "format": {
+			    "months":     "<span color='#ffead3'><b>{}</b></span>",
+			    "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+			    "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+			    "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+			    "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+		    }
+	    },
+	    "actions":  {
+		    "on-click-right": "mode",
+		    "on-scroll-up": "tz_up",
+		    "on-scroll-down": "tz_down",
+		    "on-scroll-up": "shift_up",
+		    "on-scroll-down": "shift_down"
+	    }
+    },
+    "pulseaudio": {
+	    "format": "{volume}% {icon}",
+	    "format-bluetooth": "{volume}% {icon}",
+	    "format-muted": "  ",
+	    "format-icons": {
+		    "alsa_output.pci-0000_00_1f.3.analog-stereo": "",
+		    "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
+		    "headphone": "",
+		    "hands-free": "",
+		    "headset": "",
+		    "phone": "",
+		    "phone-muted": "",
+		    "portable": "",
+		    "car": "",
+		    "default": ["", ""]
+	    },
+	    "scroll-step": 1,
+	    "on-click": "pavucontrol",
+	    "ignored-sinks": ["Easy Effects Sink"],
+	    "tooltip": false
+    },
+    "keyboard-state": {
+        "capslock": true,
+        "format": "{icon}",
+        "format-icons": {
+            "locked": "   ",
+            "unlocked": "   "
+        }
+    }
+}
